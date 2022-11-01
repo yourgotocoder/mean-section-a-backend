@@ -41,6 +41,16 @@ server.patch("/edit-todo", async (req, res) => {
         }
     })
     res.json({message: "Success"})
+});
+
+server.delete("/delete-todo", async (req, res) => {
+    const { id } = req.body;
+    const client = new MongoClient("mongodb+srv://cse:csesmit123@cluster0.udrw5uh.mongodb.net/?retryWrites=true&w=majority");
+    await client.connect();
+    const db = client.db("todo");
+    const collection = db.collection("todo-items");
+    await collection.findOneAndDelete({ _id: new ObjectId(id)})
+    res.json({message: "Success"})
 })
 
 server.get("/", (req, res) => {
