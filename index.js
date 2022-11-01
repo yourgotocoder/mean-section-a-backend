@@ -10,13 +10,22 @@ server.use(express.json());
 
 server.post("/add-todo", async (req, res) => {
     const { title } = req.body;
-    const client = new MongoClient("mongodb+srv://cse:csesmit123@cluster0.udrw5uh.mongodb.net/?retryWrites=true&w=majority");
     console.log(title);
+    const client = new MongoClient("mongodb+srv://cse:csesmit123@cluster0.udrw5uh.mongodb.net/?retryWrites=true&w=majority");
     await client.connect();
     const db = client.db("todo");
     const collection = db.collection("todo-items");
     await collection.insertOne({title: title});
     res.json({message: "Success"})
+});
+
+server.get("/todo-items", async (req, res) => {
+    const client = new MongoClient("mongodb+srv://cse:csesmit123@cluster0.udrw5uh.mongodb.net/?retryWrites=true&w=majority");
+    await client.connect();
+    const db = client.db("todo");
+    const collection = db.collection("todo-items");
+    const data = await collection.find().toArray();
+    res.json(data);
 })
 
 server.get("/", (req, res) => {
