@@ -5,6 +5,14 @@ const express = require("express");
 const server = express();
 
 //Add one route for the server to listen to
+server.use(express.json());
+
+server.post("/add-todo", (req, res) => {
+    const { title } = req.body;
+    console.log(title);
+    res.json({message: "Success"})
+})
+
 server.get("/", (req, res) => {
     res.json({ message: "Hello from server"})
 })
