@@ -1,7 +1,7 @@
 //Import your express package
 const express = require("express");
 //Import mongodb driver
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 //Initialize one express instance
 const server = express();
 
@@ -26,6 +26,21 @@ server.get("/todo-items", async (req, res) => {
     const collection = db.collection("todo-items");
     const data = await collection.find().toArray();
     res.json(data);
+})
+
+server.patch("/edit-todo", async (req, res) => {
+    const { id, newTodoTitle } = req.body;
+    console.log(id);
+    const client = new MongoClient("mongodb+srv://cse:csesmit123@cluster0.udrw5uh.mongodb.net/?retryWrites=true&w=majority");
+    await client.connect();
+    const db = client.db("todo");
+    const collection = db.collection("todo-items");
+    await collection.findOneAndUpdate({_id: new ObjectId(id)}, {
+        $set: {
+            title: newTodoTitle
+        }
+    })
+    res.json({message: "Success"})
 })
 
 server.get("/", (req, res) => {

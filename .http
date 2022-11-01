@@ -4,3 +4,15 @@ Content-Type: application/json
 {
     "title": "My second item"
 }
+
+###
+GET http://localhost:3000/todo-items
+
+###
+PATCH http://localhost:3000/edit-todo
+Content-Type: application/json
+
+{
+    "id": "6360a9bc3f59b704e1dc15bc",
+    "newTodoTitle": "Modified item"
+}
